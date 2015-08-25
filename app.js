@@ -63,7 +63,7 @@ var users = [];
 var findByEmail = function(email, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
-    if (user.preferred_username === email) {
+    if (user._json.upn === email) {
       return fn(null, user);
     }
   }
@@ -81,22 +81,21 @@ passport.use(new OIDCStrategy({
     clientID: config.creds.clientID,
     clientSecret: config.creds.clientSecret,
     oidcIssuer: config.creds.issuer,
-    identityMetadata: config.creds.identityMetadata,
-    skipUserProfile: true // doesn't fetch user profile
+    identityMetadata: config.creds.identityMetadata
   },
-  function(iss, sub, email, claims, profile, accessToken, refreshToken, done) {
-    log.info('We received claims of: ', claims);
-    log.info('Example: Email address we received was: ', claims.preferred_username);
+  function(iss, sub, profile, accessToken, refreshToken, done) {
+    log.info('We received profile of: ', profile);
+    log.info('Example: Email address we received was: ', profile._json.upn);
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      findByEmail(claims.preferred_username, function(err, user) {
+      findByEmail(profile._json.upn, function(err, user) {
         if (err) {
           return done(err);
         }
         if (!user) {
           // "Auto-registration"
-          users.push(claims);
-          return done(null, claims);
+          users.push(profile);
+          return done(null, profile);
         }
         return done(null, user);
       });
