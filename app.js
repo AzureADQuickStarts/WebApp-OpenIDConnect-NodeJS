@@ -34,7 +34,7 @@ var config = require('./config');
 
 // Start QuickStart here
 
-var OIDCStrategy = require('./lib/passport-azure-ad/index').OIDCStrategy;
+var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
 var log = bunyan.createLogger({
     name: 'Microsoft OIDC Example Web Application'
@@ -63,19 +63,12 @@ var log = bunyan.createLogger({
 
 //Routes (Section 4)
 
-a
+
 
 // Our POST routes (Section 3)
 
-// POST /auth/openid
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in OpenID authentication will involve redirecting
-//   the user to their OpenID provider.  After authenticating, the OpenID
-//   provider will redirect the user back to this application at
-//   /auth/openid/return
 
-
-// GET /auth/openid/return
+// POST /auth/openid/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
