@@ -83,7 +83,7 @@ passport.use(new OIDCStrategy({
     oidcIssuer: config.creds.issuer,
     identityMetadata: config.creds.identityMetadata
   },
-  function(iss, sub, profile, accessToken, refreshToken, done) {
+  function(iss, sub, claims, profile, accessToken, refreshToken, done) {
     log.info('We received profile of: ', profile);
     log.info('Example: Email address we received was: ', profile._json.upn);
     // asynchronous verification, for effect...
@@ -141,21 +141,6 @@ app.get('/login',
     log.info('Login was called in the Sample');
     res.redirect('/');
 });
-
-// Our POST routes (Section 3)
-
-// POST /auth/openid
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in OpenID authentication will involve redirecting
-//   the user to their OpenID provider.  After authenticating, the OpenID
-//   provider will redirect the user back to this application at
-//   /auth/openid/return
-app.post('/auth/openid',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function(req, res) {
-    log.info('Authenitcation was called in the Sample');
-    res.redirect('/');
-  });
 
 // GET /auth/openid/return
 //   Use passport.authenticate() as route middleware to authenticate the
