@@ -1,4 +1,4 @@
-#Windows Azure Active Directory OIDC Web API Sample
+#Azure Active Directory OIDC Web Sample
 
 This Node.js app will give you with a quick and easy way to set up a Web application in node.js with Express usind OpenID Connect. The sample server included in the download are designed to run on any platform.
 
@@ -9,7 +9,7 @@ We've released all of the source code for this example in GitHub under an MIT li
 
 Getting started with the sample is easy. It is configured to run out of the box with minimal setup.
 
-### Step 1: Register a Windows Azure AD Tenant
+### Step 1: Register an Azure AD Tenant
 
 To use this sample you will need a Windows Azure Active Directory Tenant. If you're not sure what a tenant is or how you would get one, read [What is an Azure AD tenant](http://technet.microsoft.com/library/jj573650.aspx)? or [Sign up for Azure as an organization](http://azure.microsoft.com/en-us/documentation/articles/sign-up-organization/). These docs should get you started on your way to using Windows Azure AD.
 
@@ -22,13 +22,8 @@ Next, clone the sample repo and install the NPM.
 
 From your shell or command line:
 
-* `$ git clone git@github.com:AzureADQuickStarts/WebApp-OpenIDConnect-NodeJS.git`
+* `$ git clone git@github.com:AzureADSamples/WebApp-OpenIDConnect-NodeJS.git`
 * `$ npm install`
-* `$cd passport-azure-ad`
-* `$ npm install`
-*
-
-YOU NEED TO RUN NPM INSTALL ON THE passport-azure-ad directory as well as the npm has yet to be updated for convergence.
 
 ### Step 5: Configure your server using config.js
 
@@ -49,7 +44,7 @@ You will have a server successfully running on `http://localhost:3000`.
 
 ### Acknowledgements
 
-We would like to acknowledge the folks who own/contribute to the following projects for their support of Windows Azure Active Directory and their libraries that were used to build this sample. In places where we forked these libraries to add additional functionality, we ensured that the chain of forking remains intact so you can navigate back to the original package. Working with such great partners in the open source community clearly illustrates what open collaboration can accomplish. Thank you!
+We would like to acknowledge the folks who own/contribute to the following projects for their support of Azure Active Directory and their libraries that were used to build this sample. In places where we forked these libraries to add additional functionality, we ensured that the chain of forking remains intact so you can navigate back to the original package. Working with such great partners in the open source community clearly illustrates what open collaboration can accomplish. Thank you!
 
 
 ## About The Code
