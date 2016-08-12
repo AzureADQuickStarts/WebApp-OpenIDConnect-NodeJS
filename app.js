@@ -147,19 +147,6 @@ app.get('/login',
     res.redirect('/');
 });
 
-// POST /auth/openid
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in OpenID authentication will involve redirecting
-//   the user to their OpenID provider.  After authenticating, the OpenID
-//   provider will redirect the user back to this application at
-//   /auth/openid/return
-app.get('/auth/openid',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }),
-  function(req, res) {
-    log.info('Authenitcation was called in the Sample');
-    res.redirect('/');
-  });
-
 // GET /auth/openid/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
@@ -172,7 +159,8 @@ app.get('/auth/openid/return',
     res.redirect('/');
   });
 
-// GET /auth/openid/return
+
+// POST /auth/openid/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
@@ -185,8 +173,9 @@ app.post('/auth/openid/return',
   });
 
 app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
+  req.session.destroy(function (err) {
+    res.redirect('/'); 
+  });
 });
 
 app.listen(3000);
