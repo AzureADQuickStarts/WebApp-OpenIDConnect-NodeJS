@@ -22,14 +22,27 @@ Next, clone the sample repo and install the NPM.
 
 From your shell or command line:
 
-* `$ git clone git@github.com:AzureADSamples/WebApp-OpenIDConnect-NodeJS.git`
+* `$ git clone git@github.com:AzureADQuickStarts/WebApp-OpenIDConnect-NodeJS.git`
 * `$ npm install`
 
-### Step 5: Configure your server using config.js
+### Step 4: Configure your server
 
-**NOTE:** You may also pass the `issuer:` value if you wish to validate that as well.
+Provide the parameters listed in config.js as instructed.
 
-### Step 6: Run the application
+**NOTE:** Session middleware is required to use OIDCStrategy. We keep nonce, state, etc in session for validation purpose; we also keep `user` in session for a persistent login session.
+
+If you don't want a persistent login session (you want the user to enter username and password etc for every request to access protected resources), you can achieve it by using the following code. 
+
+```
+passport.authenticate('azuread-openidconnect', {session: false});
+```
+
+In this app we use `express-session` for session middleware. For the session store required by `express-session`, you can choose `memoryStore` (the default session store provided by `express-session`), or `mongoDB`, using the `useMongoDBSessionStore` option in config.js. Note that `memoryStore` is for development purpose only, for production you should use `mongoDB` or other [compatible session stores](https://github.com/expressjs/session#compatible-session-stores).
+
+
+### Step 5: Run the application
+
+If you are using mongoDB session store in app, you have to install mongoDB and start the service first. Then you can run:
 
 * `$ node app.js`
 
