@@ -199,7 +199,7 @@ app.get('/account', ensureAuthenticated, function(req, res) {
 });
 
 app.get('/login',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
+  passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: 'my_state', failureRedirect: '/' }),
   function(req, res) {
     log.info('Login was called in the Sample');
     res.redirect('/');
