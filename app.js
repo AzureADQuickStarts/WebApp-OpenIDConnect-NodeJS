@@ -199,7 +199,9 @@ app.get('/account', ensureAuthenticated, function(req, res) {
 });
 
 app.get('/login',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
+  // if you want to specify the resource or use your own state, 
+  // you can use the `resourceURL` and `customState` options
+  passport.authenticate('azuread-openidconnect', { resourceURL: config.resourceURL, customState: 'my_state', failureRedirect: '/' }),
   function(req, res) {
     log.info('Login was called in the Sample');
     res.redirect('/');

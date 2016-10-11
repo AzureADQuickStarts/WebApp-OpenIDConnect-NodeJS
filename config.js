@@ -12,7 +12,7 @@ exports.creds = {
   clientID: '<your_client_id>',
 
   // Required, must be 'code', 'code id_token', 'id_token code' or 'id_token' 
-  responseType: 'id_token', 
+  responseType: 'code id_token', 
 
   // Required
   responseMode: 'form_post', 
@@ -45,6 +45,12 @@ exports.creds = {
   // Optional. The lifetime of nonce in session, the default value is 3600 (seconds).
   nonceLifetime: null,
 };
+
+// Optional.
+// If you want to get access_token for a specific resource, you can provide the resource here; otherwise, 
+// set the value to null.
+// Note that in order to get access_token, the responseType must be 'code', 'code id_token' or 'id_token code'.
+exports.resourceURL = 'https://graph.windows.net';
 
 // The url you need to go to destroy the session with AAD
 exports.destroySessionUrl = 'https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=http://localhost:3000';
