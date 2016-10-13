@@ -22,21 +22,48 @@ Next, clone the sample repo and install the NPM.
 
 From your shell or command line:
 
-* `$ git clone git@github.com:AzureADSamples/WebApp-OpenIDConnect-NodeJS.git`
+* `$ git clone git@github.com:AzureADQuickStarts/WebApp-OpenIDConnect-NodeJS.git`
 * `$ npm install`
 
-### Step 5: Configure your server using config.js
+### Step 4: Configure your server
 
-**NOTE:** You may also pass the `issuer:` value if you wish to validate that as well.
+* Provide the parameters in `exports.creds` in config.js as instructed.
 
-### Step 6: Run the application
+* Update `exports.destroySessionUrl` in config.js, if you want to use a different `post_logout_redirect_uri`.
 
-* `$ node app.js`
+* Set `exports.useMongoDBSessionStore` in config.js to false, if you want to use the
+default session store for `express-session`. Note that the default session store is
+not suitable for production, you must use mongoDB or other [compatible session stores](https://github.com/expressjs/session#compatible-session-stores).
+
+* Update `exports.databaseUri`, if you want to use mongoDB session store and a different database uri.
+
+* Update `exports.mongoDBSessionMaxAge`. Here you can specify how long you want
+to keep a session in mongoDB. The unit is second(s).
+
+**NOTE:** Session middleware is required to use OIDCStrategy. We keep nonce, state, etc in session for validation purpose; we also keep `user` in session for a persistent login session.
+
+If you don't want a persistent login session (you want the user to enter username and password etc for every request to access protected resources), you can achieve it by using the following code. 
+
+```
+passport.authenticate('azuread-openidconnect', {session: false});
+```
+
+### Step 5: Run the application
+
+* Start mongoDB service. If you are using mongoDB session store in this app, you have to install mongoDB and start the service first. If you are using the default session store, you can skip this step.
+
+* Run the app. Use the following command in terminal.
+
+```
+$ node app.js
+```
 
 **Is the server output hard to understand?:** We use `bunyan` for logging in this sample. The console won't make much sense to you unless you also install bunyan and run the server like above but pipe it through the bunyan binary:
 
-* `$ npm install -g bunyan`
-* `$ node app.js | bunyan`
+```
+$ npm install -g bunyan
+$ node app.js | bunyan
+```
 
 ### You're done!
 
