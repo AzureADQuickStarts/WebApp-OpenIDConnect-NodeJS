@@ -113,6 +113,8 @@ passport.use(new OIDCStrategy({
     issuer: config.creds.issuer,
     passReqToCallback: config.creds.passReqToCallback,
     scope: config.creds.scope,
+    thumbprint: config.creds.thumbprint,
+    privatePEMKey: config.creds.privatePEMKey,
     loggingLevel: config.creds.loggingLevel,
     nonceLifetime: config.creds.nonceLifetime,
   },
@@ -199,7 +201,7 @@ app.get('/account', ensureAuthenticated, function(req, res) {
 });
 
 app.get('/login',
-  passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: 'my_state', failureRedirect: '/' }),
+  passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: 'my_state', failureRedirect: '/'}),
   function(req, res) {
     log.info('Login was called in the Sample');
     res.redirect('/');
@@ -234,6 +236,8 @@ app.get('/logout', function(req, res){
     res.redirect(config.destroySessionUrl);
   });
 });
+
+module.exports = app;
 
 app.listen(3000);
 
