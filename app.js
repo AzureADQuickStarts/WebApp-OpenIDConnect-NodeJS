@@ -35,6 +35,7 @@ var methodOverride = require('method-override');
 var passport = require('passport');
 var util = require('util');
 var bunyan = require('bunyan');
+var base64url = require('base64url');
 var config = require('./config');
 
 // set up database for express session
@@ -60,11 +61,11 @@ var log = bunyan.createLogger({
 // the user by ID when deserializing.
 //-----------------------------------------------------------------------------
 passport.serializeUser(function(user, done) {
-  done(null, user.oid);
+  done(null, user.sub);
 });
 
-passport.deserializeUser(function(oid, done) {
-  findByOid(oid, function (err, user) {
+passport.deserializeUser(function(sub, done) {
+  findBySub(sub, function (err, user) {
     done(err, user);
   });
 });
@@ -72,11 +73,11 @@ passport.deserializeUser(function(oid, done) {
 // array to hold logged in users
 var users = [];
 
-var findByOid = function(oid, fn) {
+var findBySub = function(sub, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
    log.info('we are using user: ', user);
-    if (user.oid === oid) {
+    if (user.sub === sub) {
       return fn(null, user);
     }
   }
@@ -117,14 +118,15 @@ passport.use(new OIDCStrategy({
     privatePEMKey: config.creds.privatePEMKey,
     loggingLevel: config.creds.loggingLevel,
     nonceLifetime: config.creds.nonceLifetime,
+    jweKeyStore: config.creds.jweKeyStore
   },
   function(iss, sub, profile, accessToken, refreshToken, done) {
-    if (!profile.oid) {
-      return done(new Error("No oid found"), null);
+    if (!profile.sub) {
+      return done(new Error("No sub found"), null);
     }
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      findByOid(profile.oid, function(err, user) {
+      findBySub(profile.sub, function(err, user) {
         if (err) {
           return done(err);
         }
@@ -200,8 +202,12 @@ app.get('/account', ensureAuthenticated, function(req, res) {
   res.render('account', { user: req.user });
 });
 
+//var state = base64url.encode(JSON.stringify( { 'JWT_kid': 'rsa_key', 'JWE_alg': 'A128KW', 'JWE_enc': 'A128CBC-HS256', 'JWE_kid': 'a128kw_cek' }));
+var state = base64url.encode(JSON.stringify( { 'Expired': false }));
+
 app.get('/login',
-  passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: 'my_state', failureRedirect: '/'}),
+  //passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: state, failureRedirect: '/'}),
+  passport.authenticate('azuread-openidconnect', { customState: state, failureRedirect: '/'}),
   function(req, res) {
     log.info('Login was called in the Sample');
     res.redirect('/');

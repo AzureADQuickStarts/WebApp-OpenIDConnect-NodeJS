@@ -12,6 +12,7 @@
     "express": "3.x",
     "express-session": "^1.14.1",
     "method-override": "^2.3.6",
+    "base64url": "*",
     "mongoose": "^4.6.2",
     "passport": "*"
   }
