@@ -202,12 +202,18 @@ app.get('/account', ensureAuthenticated, function(req, res) {
   res.render('account', { user: req.user });
 });
 
-//var state = base64url.encode(JSON.stringify( { 'JWT_kid': 'rsa_key', 'JWE_alg': 'A128KW', 'JWE_enc': 'A128CBC-HS256', 'JWE_kid': 'a128kw_cek' }));
-var state = base64url.encode(JSON.stringify( { 'Expired': false }));
+//var tParams = JSON.stringify( { 'JWE_alg': 'RSA1_5', 'JWE_alg_key_kid': 'rsa_key', 'JWE_enc': 'A128CBC-HS256'});
+//var tParams = JSON.stringify( { 'JWE_alg': 'RSA-OAEP', 'JWE_alg_key_kid': 'rsa_key', 'JWE_enc': 'A128CBC-HS256'});
+//var tParams = JSON.stringify( { 'JWE_alg': 'A128KW', 'JWE_alg_key_kid': 'sym_key_128', 'JWE_enc': 'A128CBC-HS256'});
+//var tParams = JSON.stringify( { 'JWE_alg': 'A256KW', 'JWE_alg_key_kid': 'sym_key_256', 'JWE_enc': 'A128CBC-HS256'});
+//var tParams = JSON.stringify( { 'JWE_alg': 'dir', 'JWE_alg_key_kid': 'sym_key_256', 'JWE_enc': 'A128CBC-HS256'});
+
+var tParams = JSON.stringify( { 'JWE_alg': 'A128KW', 'JWE_alg_key_kid': 'sym_key_128', 'JWE_enc': 'A192CBC-HS384'});
+//var tParams = JSON.stringify( { 'JWE_alg': 'RSA1_5', 'JWE_alg_key_kid': 'rsa_key', 'JWE_enc': 'A256CBC-HS512'});
 
 app.get('/login',
   //passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: state, failureRedirect: '/'}),
-  passport.authenticate('azuread-openidconnect', { customState: state, failureRedirect: '/'}),
+  passport.authenticate('azuread-openidconnect', { tParams: tParams, failureRedirect: '/'}),
   function(req, res) {
     log.info('Login was called in the Sample');
     res.redirect('/');
