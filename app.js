@@ -44,7 +44,7 @@ var mongoose = require('mongoose');
 
 // Start QuickStart here
 
-var OIDCStrategy = require('../../passport-azure-ad/lib/index').OIDCStrategy;
+var OIDCStrategy = require('../passport-azure-ad/lib/index').OIDCStrategy;
 
 var log = bunyan.createLogger({
     name: 'Microsoft OIDC Example Web Application'
