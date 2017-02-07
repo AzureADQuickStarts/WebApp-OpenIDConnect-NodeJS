@@ -27,7 +27,8 @@ exports.creds = {
   
   // Required if `responseType` is 'code', 'id_token code' or 'code id_token'. 
   // If app key contains '\', replace it with '\\'.
-  clientSecret: 'fipfr51S6oWzK2DzgMQ3SItkfjltrYeA9QgebLUWOfQ=', 
+  //clientSecret: 'fipfr51S6oWzK2DzgMQ3SItkfjltrYeA9QgebLUWOfQ=', 
+  clientSecret: 'secret-001',
 
 //   thumbprint: 'Z2mGlF+IHL49Q9a66mDQLWG/lfs=',
 //   privatePEMKey: '-----BEGIN RSA PRIVATE KEY-----\n\

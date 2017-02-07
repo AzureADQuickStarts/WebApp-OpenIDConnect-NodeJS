@@ -44,7 +44,7 @@ var mongoose = require('mongoose');
 
 // Start QuickStart here
 
-var OIDCStrategy = require('../../passport-azure-ad/lib/index').OIDCStrategy;
+var OIDCStrategy = require('../passport-azure-ad/lib/index').OIDCStrategy;
 
 var log = bunyan.createLogger({
     name: 'Microsoft OIDC Example Web Application'
@@ -203,11 +203,11 @@ app.get('/account', ensureAuthenticated, function(req, res) {
 });
 
 //var state = base64url.encode(JSON.stringify( { 'JWT_kid': 'rsa_key', 'JWE_alg': 'A128KW', 'JWE_enc': 'A128CBC-HS256', 'JWE_kid': 'a128kw_cek' }));
-var state = base64url.encode(JSON.stringify( { 'Expired': false }));
+var tParams = "{ 'Invalid_aud': true }";
 
 app.get('/login',
   //passport.authenticate('azuread-openidconnect', { resourceURL: 'https://graph.windows.net', customState: state, failureRedirect: '/'}),
-  passport.authenticate('azuread-openidconnect', { customState: state, failureRedirect: '/'}),
+  passport.authenticate('azuread-openidconnect', { tParams: tParams, failureRedirect: '/'}),
   function(req, res) {
     log.info('Login was called in the Sample');
     res.redirect('/');
