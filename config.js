@@ -1,7 +1,8 @@
 
 exports.creds = {
   // Required
-  identityMetadata: 'http://localhost:8081/.well-known/openid-configuration', 
+  identityMetadata: 'http://localhost:8081/.well-known/openid-configuration',
+  //identityMetadata: 'https://testingsts.azurewebsites.net/.well-known/openid-configuration', 
   // or equivalently: 'https://login.microsoftonline.com/<tenant_guid>/.well-known/openid-configuration'
   //
   // or you can use the common endpoint
@@ -14,7 +15,7 @@ exports.creds = {
 
   // Required, must be 'code', 'code id_token', 'id_token code' or 'id_token' 
   //responseType: 'code id_token', 
-  responseType: 'code id_token', 
+  responseType: 'code', 
 
   // Required
   responseMode: 'form_post', 
@@ -60,10 +61,11 @@ exports.creds = {
 // -----END RSA PRIVATE KEY-----',
 
   // Required to set to false if you don't want to validate issuer
-  validateIssuer: false,
+  validateIssuer: true,
 
   // Required if you want to provide the issuer(s) you want to validate instead of using the issuer from metadata
-  issuer: ['https://sts.windows.net/3bc5b5fb-d689-4886-8f9b-a477b719f741/'],
+  //issuer: ['https://sts.windows.net/3bc5b5fb-d689-4886-8f9b-a477b719f741/'],
+  issuer: ['https://fp.onmicrosoft.com'],
 
   // Required to set to true if the `verify` function has 'req' as the first parameter
   passReqToCallback: false,
@@ -81,6 +83,7 @@ exports.creds = {
   jweKeyStore: [ 
     { 'kid': 'sym_key_256', 'kty': 'oct', 'k': 'WIVds2iwJPwNhgUgwZXmn/46Ql1EkiL+M+QqDRdQURE=' }, 
     { 'kid': 'sym_key_128', 'kty': 'oct', 'k': 'GawgguFyGrWKav7AX4VKUg'}, 
+    { 'kid': 'sym_key_384', 'kty': 'oct', 'k': 'AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4v'},
     { 'kid': 'rsa_key', 
       'kty': 'RSA', 
       "n":"6-FrFkt_TByQ_L5d7or-9PVAowpswxUe3dJeYFTY0Lgq7zKI5OQ5RnSrI0\
