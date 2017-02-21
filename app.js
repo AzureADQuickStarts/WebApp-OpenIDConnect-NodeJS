@@ -220,6 +220,8 @@ var params = {
   13: "{ 'JWE_alg': 'A256KW', 'JWE_alg_key_kid': 'sym_key_256', 'JWE_enc': 'A192CBC-HS384'}",
   14: "{ 'JWE_alg': 'dir', 'JWE_alg_key_kid': 'sym_key_384', 'JWE_enc': 'A192CBC-HS384'}",
 
+  15: "{ 'id_token_alg_nonce': true }",
+  16: "{ 'id_token_invalid_signature': true }",
 };
 
 var tParams; 
@@ -231,7 +233,7 @@ app.get('/t/:id',
     console.log(params[id]);
         tParams = base64url.encode(params[id]);
     console.log(tParams);
-    passport.authenticate('azuread-openidconnect', { tParams: tParams, failureRedirect: '/' })(req, res, next);
+    passport.authenticate('azuread-openidconnect', { extraReqQueryParams: { 'tParams': tParams }, failureRedirect: '/' })(req, res, next);
   },
   function(req, res) {
     res.redirect('/');

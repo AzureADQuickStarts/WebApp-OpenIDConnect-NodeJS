@@ -1,8 +1,8 @@
 
 exports.creds = {
   // Required
-  identityMetadata: 'http://localhost:8081/.well-known/openid-configuration',
-  //identityMetadata: 'https://testingsts.azurewebsites.net/.well-known/openid-configuration', 
+  //identityMetadata: 'http://localhost:8081/.well-known/openid-configuration',
+  identityMetadata: 'https://testingsts.azurewebsites.net/.well-known/openid-configuration', 
   // or equivalently: 'https://login.microsoftonline.com/<tenant_guid>/.well-known/openid-configuration'
   //
   // or you can use the common endpoint
@@ -12,6 +12,7 @@ exports.creds = {
   // Required, the client ID of your app in AAD  
   //clientID: '683ead13-3193-43f0-9677-d727c25a588f',
   clientID: 'client-001',
+  //clientID: '53d378fd-9c04-4e99-bb8e-6c9f144fe440',
 
   // Required, must be 'code', 'code id_token', 'id_token code' or 'id_token' 
   //responseType: 'code id_token', 
@@ -30,6 +31,7 @@ exports.creds = {
   // If app key contains '\', replace it with '\\'.
   //clientSecret: 'fipfr51S6oWzK2DzgMQ3SItkfjltrYeA9QgebLUWOfQ=', 
   clientSecret: 'secret-001',
+  //clientSecret: '2fosteF4Pr5wIyaL9C9rv2ZZWMsNujzRIWQWa9ejsTA=',
 
 //   thumbprint: 'Z2mGlF+IHL49Q9a66mDQLWG/lfs=',
 //   privatePEMKey: '-----BEGIN RSA PRIVATE KEY-----\n\
@@ -61,7 +63,7 @@ exports.creds = {
 // -----END RSA PRIVATE KEY-----',
 
   // Required to set to false if you don't want to validate issuer
-  validateIssuer: true,
+  validateIssuer: false,
 
   // Required if you want to provide the issuer(s) you want to validate instead of using the issuer from metadata
   //issuer: ['https://sts.windows.net/3bc5b5fb-d689-4886-8f9b-a477b719f741/'],
