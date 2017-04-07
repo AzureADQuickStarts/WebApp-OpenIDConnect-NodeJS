@@ -36,14 +36,33 @@ exports.creds = {
   // Required to set to true if the `verify` function has 'req' as the first parameter
   passReqToCallback: false,
 
+  // Recommended to set to true. By default we save state in express session, if this option is set to true, then
+  // we encrypt state and save it in cookie instead. This option together with { session: false } allows your app
+  // to be completely express session free.
+  useCookieInsteadOfSession: true,
+
+  // Required if `useCookieInsteadOfSession` is set to true. You can provide multiple set of key/iv pairs for key
+  // rollover purpose. We always use the first set of key/iv pair to encrypt cookie, but we will try every set of
+  // key/iv pair to decrypt cookie. Key can be any string of length 32, and iv can be any string of length 12.
+  cookieEncryptionKeys: [ 
+    { 'key': '12345678901234567890123456789012', 'iv': '123456789012' },
+    { 'key': 'abcdefghijklmnopqrstuvwxyzabcdef', 'iv': 'abcdefghijkl' }
+  ],
+
   // Optional. The additional scope you want besides 'openid', for example: ['email', 'profile'].
   scope: null,
 
   // Optional, 'error', 'warn' or 'info'
   loggingLevel: 'info',
 
-  // Optional. The lifetime of nonce in session, the default value is 3600 (seconds).
+  // Optional. The lifetime of nonce in session or cookie, the default value is 3600 (seconds).
   nonceLifetime: null,
+
+  // Optional. The max amount of nonce saved in session or cookie, the default value is 10.
+  nonceMaxAmount: 5,
+
+  // Optional. The clock skew allowed in token validation, the default value is 300 seconds.
+  clockSkew: null,
 };
 
 // Optional.
