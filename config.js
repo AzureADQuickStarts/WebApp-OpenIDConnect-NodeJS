@@ -29,6 +29,10 @@ exports.creds = {
 
   // Required to set to false if you don't want to validate issuer
   validateIssuer: true,
+  
+  // Required to set to true if you are using B2C endpoint
+  // This sample is for v1 endpoint only, so we set it to false
+  isB2C: false,
 
   // Required if you want to provide the issuer(s) you want to validate instead of using the issuer from metadata
   issuer: null,
