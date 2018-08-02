@@ -34,7 +34,7 @@ To run this sample you will need the following:
 
 1. Under **Settings**, choose **Properties** and update the App ID URI which is a unique identifier for your app. It is of the format 'https://<your_tenant_name>/<app_name>' replacing `<your_tenant_name>` with the name of your Azure AD tenant. For example: `https://contoso.onmicrosoft.com/Webapp-Openidconnect`
 
-1. Under **Settings**, click on **Redirect URIs** and set it to `http://localhost:3000/auth/openid/return` which this sample uses by default.
+1. Under **Settings**, click on **Reply URLs** and set it to `http://localhost:3000/auth/openid/return` which this sample uses by default.
 
 1. From the **Settings** menu, choose **Keys** and add a new entry in the Password section:
    - Type a key description (for instance 'app secret'),
@@ -66,7 +66,7 @@ Provide the parameters in `exports.creds` in config.js as instructed.
 * Update `<tenant_name>` in `exports.identityMetadata` with the Azure AD tenant name of the format \*.onmicrosoft.com.
 * Update `exports.clientID` with the Application Id noted from app registration.
 * Update `exports.clientSecret` with the Application key noted from app registration.
-* Update `exports.redirectUrl` with the Redirect URI noted from app registration.
+* Update `exports.redirectUrl` with the Reply URL noted from app registration.
 
 **Optional configuration for production apps:**
 
