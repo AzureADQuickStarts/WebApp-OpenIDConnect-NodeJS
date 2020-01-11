@@ -1,5 +1,6 @@
 # Azure Active Directory OIDC Web Sample
 
+## THIS REPO IS A FORK OF THE CODE AT https://github.com/AzureADQuickStarts/WebApp-OpenIDConnect-NodeJS, but with the addition of cookie-session support (as opposed to server-side support).
 
 | [Library](https://github.com/AzureAD/passport-azure-ad) | [Docs](https://aka.ms/aaddev) | [Support](README.md#community-help-and-support) | [Protocol](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-protocols-openid-connect-code)
 | --- | --- | --- | --- |
