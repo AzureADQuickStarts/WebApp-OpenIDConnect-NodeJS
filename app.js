@@ -29,17 +29,13 @@
 
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
+var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var passport = require('passport');
 var util = require('util');
 var bunyan = require('bunyan');
 var config = require('./config');
-
-// set up database for express session
-var MongoStore = require('connect-mongo')(expressSession);
-var mongoose = require('mongoose');
 
 // Start QuickStart here
 
@@ -60,28 +56,12 @@ var log = bunyan.createLogger({
 // the user by ID when deserializing.
 //-----------------------------------------------------------------------------
 passport.serializeUser(function(user, done) {
-  done(null, user.oid);
+  done(null, user);
 });
 
-passport.deserializeUser(function(oid, done) {
-  findByOid(oid, function (err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(function(user, done) {
+  done(null, user);
 });
-
-// array to hold logged in users
-var users = [];
-
-var findByOid = function(oid, fn) {
-  for (var i = 0, len = users.length; i < len; i++) {
-    var user = users[i];
-   log.info('we are using user: ', user);
-    if (user.oid === oid) {
-      return fn(null, user);
-    }
-  }
-  return fn(null, null);
-};
 
 //-----------------------------------------------------------------------------
 // Use the OIDCStrategy within Passport.
@@ -124,20 +104,7 @@ passport.use(new OIDCStrategy({
     if (!profile.oid) {
       return done(new Error("No oid found"), null);
     }
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      findByOid(profile.oid, function(err, user) {
-        if (err) {
-          return done(err);
-        }
-        if (!user) {
-          // "Auto-registration"
-          users.push(profile);
-          return done(null, profile);
-        }
-        return done(null, user);
-      });
-    });
+    return done(null, profile);
   }
 ));
 
@@ -153,20 +120,13 @@ app.use(express.logger());
 app.use(methodOverride());
 app.use(cookieParser());
 
-// set up session middleware
-if (config.useMongoDBSessionStore) {
-  mongoose.connect(config.databaseUri);
-  app.use(express.session({
-    secret: 'secret',
-    cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      clear_interval: config.mongoDBSessionMaxAge
-    })
-  }));
-} else {
-  app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: false }));
-}
+app.use(cookieSession({
+  name: 'session',
+  keys: ['changeme'], 
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
 
 app.use(bodyParser.urlencoded({ extended : true }));
 
@@ -256,10 +216,8 @@ app.post('/auth/openid/return',
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
 app.get('/logout', function(req, res){
-  req.session.destroy(function(err) {
-    req.logOut();
-    res.redirect(config.destroySessionUrl);
-  });
+  req.logOut();
+  res.redirect(config.destroySessionUrl);
 });
 
 app.listen(3000);
